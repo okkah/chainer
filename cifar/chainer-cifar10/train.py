@@ -149,7 +149,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_file', type=str, default='models/vgg.py')
     parser.add_argument('--model_name', type=str, default='VGG')
-    parser.add_argument('--gpus', type=int, nargs='*', default=[0])
+    parser.add_argument('--gpus', type=int, nargs='*', default=[-1])
     parser.add_argument('--seed', type=int, default=0)
 
     # Train settings
