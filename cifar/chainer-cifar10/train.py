@@ -13,6 +13,9 @@ import time
 
 import matplotlib
 matplotlib.use('Agg')
+
+import matplotlib.pyplot as plt
+
 import numpy as np
 
 import chainer
@@ -196,6 +199,21 @@ if __name__ == '__main__':
     print(json.dumps(vars(args), sort_keys=True, indent=4))
 
     train, valid = cifar.get_cifar10(scale=255.)
+    
+    """  
+    fig,ax = plt.subplots(nrows=9,ncols=12,sharex=True,sharey=True)
+    ax = ax.flatten()
+    for i in range(108):
+        img = train[i][0]
+        newimg = np.dstack((img[0],img[1],img[2]))
+        ax[i].imshow(newimg,interpolation='none')
+
+    ax[0].set_xticks([])
+    ax[0].set_yticks([])
+    plt.tight_layout()
+    plt.savefig("cifar.png")
+    """
+
     mean = np.mean([x for x, _ in train], axis=(0, 2, 3))
     std = np.std([x for x, _ in train], axis=(0, 2, 3))
 
@@ -207,6 +225,20 @@ if __name__ == '__main__':
 
     train = TransformDataset(train, train_transform)
     valid = TransformDataset(valid, valid_transform)
+    
+    """
+    fig,ax = plt.subplots(nrows=9,ncols=12,sharex=True,sharey=True)
+    ax = ax.flatten()
+    for i in range(108):
+        img = train[i][0]
+        newimg = np.dstack((img[0],img[1],img[2]))
+        ax[i].imshow(newimg,interpolation='none')
+
+    ax[0].set_xticks([])
+    ax[0].set_yticks([])
+    plt.tight_layout()
+    plt.savefig("cifar_transform.png")
+    """
 
     run_training(
         net, train, valid, result_dir, args.batchsize, args.gpus,
