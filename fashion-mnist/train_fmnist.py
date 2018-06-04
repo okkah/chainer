@@ -25,7 +25,7 @@ def main():
     parser = argparse.ArgumentParser(description='Chainer example: Fashion-MNIST')
     parser.add_argument('--gpu', '-g', type=int, default=-1,
                         help='GPU ID (negative value indicates CPU)')
-    parser.add_argument('--batchsize', '-b', type=int, default=100,
+    parser.add_argument('--batchsize', '-b', type=int, default=128,
                         help='Number of images in each mini-batch')
     parser.add_argument('--epoch', '-e', type=int, default=20,
                         help='Number of sweeps over the dataset to train')
@@ -59,7 +59,7 @@ def main():
     print('activation: {}'.format(args.activation))
     print('')
 
-    # Set up a neural network to train
+    # Activation
     if args.activation == 'sigmoid':
         activation = F.sigmoid
     elif args.activation == 'tanh':
@@ -104,7 +104,7 @@ def main():
     # Load_Dataset
     train, test = load_dataset()
 
-    # Output_original_images
+    # Output_Original_Images
     #output(train=train, file="./result/fmnist_original.png")
     #sys.exit()
 
@@ -120,7 +120,7 @@ def main():
     train = TransformDataset(train, train_transform)
     test = TransformDataset(test, test_transform)
     
-    # Output_transformed_images
+    # Output_Transformed_Images
     #output(train=train, file="./result/fmnist_transform.png")
     #sys.exit()
     
@@ -153,7 +153,6 @@ def main():
 
     # Run_Training
     trainer.run()
-
 
 if __name__ == '__main__':
     main()
