@@ -13,26 +13,67 @@ def cv_rotate(img, angle):
     return img
 
 
+"""
 def random_erase(img):
-    side_y = img.shape[1]
-    side_x = img.shape[2]
-    size = side_x * side_y 
-       
-    while True:
-        S_e = size * np.random.uniform(low=0.02, high=0.1)
-        r_e = np.random.uniform(low=0.3, high=1./0.3)
+    if np.random.rand(1) < 0.5:    
+        side_y = img.shape[1]
+        side_x = img.shape[2]
+        size = side_x * side_y 
+           
+        while True:
+            S_e = size * np.random.uniform(low=0.02, high=0.3)
+            r_e = np.random.uniform(low=0.3, high=1./0.3)
 
-        Y_e = np.sqrt(S_e * r_e)
-        X_e = np.sqrt(S_e / r_e)
+            Y_e = np.sqrt(S_e * r_e)
+            X_e = np.sqrt(S_e / r_e)
 
-        x_e = np.random.randint(0, side_x)
-        y_e = np.random.randint(0, side_y)
+            x_e = np.random.randint(0, side_x)
+            y_e = np.random.randint(0, side_y)
 
-        if x_e + X_e <= side_x and y_e + Y_e <= side_y:
-            img = np.copy(img)
-            img[y_e:int(y_e + Y_e + 1), x_e:int(x_e + X_e + 1), :] = np.random.uniform(0, 1)
 
-            return img
+            if x_e + X_e <= side_x and y_e + Y_e <= side_y:
+                height = range(0, int(Y_e))
+                width = range(0, int(X_e))
+
+                combinations = [(i, j) for i in height for j in width]
+                
+                for i, j in combinations:
+                    r = np.random.uniform(0, 1)
+                    #print(i, j)
+                    #print(r)
+                    #import pdb
+                    #pdb.set_trace()
+                    img[:, y_e:int(y_e + i), x_e:int(x_e + j)] = r
+
+                #print("return img")
+                return img
+    else:
+        return img
+""" 
+
+
+def cut_out(img):
+    if np.random.rand(1) < 0.5:    
+        side_y = img.shape[1]
+        side_x = img.shape[2]
+        size = side_x * side_y 
+           
+        while True:
+            S_e = size * np.random.uniform(low=0.02, high=0.3)
+            r_e = np.random.uniform(low=0.3, high=1./0.3)
+
+            Y_e = np.sqrt(S_e * r_e)
+            X_e = np.sqrt(S_e / r_e)
+
+            x_e = np.random.randint(0, side_x)
+            y_e = np.random.randint(0, side_y)
+
+            if x_e + X_e <= side_x and y_e + Y_e <= side_y:
+                img[:, y_e:int(y_e + Y_e + 1), x_e:int(x_e + X_e + 1)] = np.random.uniform(0, 1)
+
+                return img
+    else:
+        return img
 
 
 def transform(
@@ -46,10 +87,8 @@ def transform(
         angle = np.random.uniform(-random_angle, random_angle)
         img = cv_rotate(img, angle)
 
-    # Random erase
-    erase = np.random.randint(2)
-    if erase > 0:
-        img = random_erase(img)
+    # Cut out
+    img = cut_out(img)
 
     # Standardization
     img -= mean[:, None, None]
